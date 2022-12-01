@@ -1,5 +1,7 @@
 import io.ipolyzos.config.KafkaConfig
+import io.ipolyzos.models.clickstream.ClickEvent
 import io.ipolyzos.show
+import io.ipolyzos.utils.DataSourceUtils
 import mu.KLogger
 import mu.KotlinLogging
 import java.util.Properties
@@ -16,15 +18,20 @@ fun main(args: Array<String>) {
     //    val config = ConfigLoader.loadConfig()
 //    println(config)
 //
-//            val events: Sequence<ClickEvent> = DataSourceUtils
-//            .loadDataFile("/Documents/data/clickevents/events.csv", DataSourceUtils.toEvent)
+            val events: Sequence<ClickEvent> = DataSourceUtils
+            .loadDataFile("/Documents/data/clickevents/events.csv", DataSourceUtils.toEvent)
+
+
+    println(
+        events.map { it.userSession }.distinct().count()
+    )
 //
 ////        val products: List<Product> = DataSourceUtils
 ////            .loadDataFile("/Documents/data/clickevents/products.csv", DataSourceUtils.toProduct, withHeader = false)
 //
-////        val users: List<User> = DataSourceUtils
-////            .loadDataFile("/Documents/data/clickevents/users.csv", DataSourceUtils.toUser, withHeader = false)
-//
+//        val users: List<User> = DataSourceUtils
+//            .loadDataFile("/Documents/data/clickevents/users.csv", DataSourceUtils.toUser, withHeader = false)
+
 //    val time = measureTimeMillis {
 //        events.forEach {
 //            logger.info { it }
