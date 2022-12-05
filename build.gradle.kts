@@ -57,6 +57,7 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
+    kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
 }
 
 application {

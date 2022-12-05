@@ -4,8 +4,7 @@ package io.ipolyzos.resources
 import io.confluent.parallelconsumer.ParallelConsumerOptions
 import io.confluent.parallelconsumer.ParallelStreamProcessor
 import io.ipolyzos.show
-import mu.KLogger
-import mu.KotlinLogging
+import io.ipolyzos.utils.LoggingUtils
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
 
@@ -16,31 +15,31 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.system.measureTimeMillis
 
-
+context(LoggingUtils)
 class ConsumerResource<K, V> private constructor(private val consumer: KafkaConsumer<K, V>) {
     private val counter = AtomicInteger(0)
 
     companion object {
-        private val logger: KLogger by lazy { KotlinLogging.logger {} }
-
         fun <K, V> live(properties: Properties): ConsumerResource<K, V> {
-            logger.info("Starting Kafka Consumer with configs ...")
-            properties.show()
-            val consumer = KafkaConsumer<K, V>(properties)
-            val mainThread = Thread.currentThread()
+            with(LoggingUtils()) {
+                logger.info("Starting Kafka Consumer with configs ...")
+                properties.show()
+                val consumer = KafkaConsumer<K, V>(properties)
+                val mainThread = Thread.currentThread()
 
-            Runtime.getRuntime().addShutdownHook(Thread {
-                logger.info("Detected a shutdown, let's exit by calling consumer.wakeup()...")
-                consumer.wakeup()
+                Runtime.getRuntime().addShutdownHook(Thread {
+                    logger.info("Detected a shutdown, let's exit by calling consumer.wakeup()...")
+                    consumer.wakeup()
 
-                // join the main thread to allow the execution of the code in the main thread
-                try {
-                    mainThread.join()
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-            })
-            return ConsumerResource(consumer)
+                    // join the main thread to allow the execution of the code in the main thread
+                    try {
+                        mainThread.join()
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
+                    }
+                })
+                return ConsumerResource(consumer)
+            }
         }
     }
 

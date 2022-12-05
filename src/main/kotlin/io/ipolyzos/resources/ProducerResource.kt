@@ -1,24 +1,23 @@
 package io.ipolyzos.resources
 
 import io.ipolyzos.show
-import mu.KLogger
-import mu.KotlinLogging
+import io.ipolyzos.utils.LoggingUtils
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import java.util.Properties
 import java.util.concurrent.atomic.AtomicInteger
 
-
+context(LoggingUtils)
 class ProducerResource<K, V> private constructor(private val producer: KafkaProducer<K, V>) {
     private val counter = AtomicInteger(0)
     companion object {
-        private val logger: KLogger by lazy { KotlinLogging.logger {} }
-
         fun <K, V> live(properties: Properties): ProducerResource<K, V> {
-            logger.info("Starting Kafka Producers with configs ...")
-            properties.show()
-            val producer  = KafkaProducer<K, V>(properties)
-            return ProducerResource(producer)
+            with(LoggingUtils()) {
+                logger.info("Starting Kafka Producers with configs ...")
+                properties.show()
+                val producer = KafkaProducer<K, V>(properties)
+                return ProducerResource(producer)
+            }
         }
     }
 
