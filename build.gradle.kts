@@ -1,6 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.davidmc24.gradle.plugin.avro.GenerateAvroJavaTask
 
+val arrow_version: String by project
+val suspendapp_version: String by project
 val hoplite_version: String by project
 val logback_version: String by project
 val parallel_consumer_version: String by project
@@ -39,6 +41,12 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:$klogging_version")
 
     implementation("ch.qos.logback:logback-classic:$logback_version")
+
+    // Arrow Dependencies
+    implementation("io.arrow-kt:suspendapp:$suspendapp_version")
+    implementation("io.arrow-kt:arrow-core:$arrow_version")
+    implementation("io.arrow-kt:arrow-fx-coroutines:$arrow_version")
+    implementation("io.arrow-kt:arrow-fx-stm:$arrow_version")
 
     testImplementation(kotlin("test"))
 }

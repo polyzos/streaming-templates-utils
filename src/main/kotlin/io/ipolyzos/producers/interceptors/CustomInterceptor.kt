@@ -1,4 +1,4 @@
-package io.ipolyzos.producers
+package io.ipolyzos.producers.interceptors
 
 import org.apache.kafka.clients.producer.ProducerInterceptor
 import org.apache.kafka.clients.producer.ProducerRecord

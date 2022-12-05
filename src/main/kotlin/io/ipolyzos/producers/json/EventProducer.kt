@@ -1,15 +1,13 @@
 package io.ipolyzos.producers.json
 
+import io.ipolyzos.resources.ProducerResource
 import io.ipolyzos.config.KafkaConfig
 import io.ipolyzos.models.clickstream.ClickEvent
-import io.ipolyzos.show
 import io.ipolyzos.utils.DataSourceUtils
 import mu.KLogger
 import mu.KotlinLogging
-import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.clients.producer.ProducerRecord
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicInteger
+import kotlin.system.measureTimeMillis
 
 fun main() = ECommerceProducer.runProducer()
 
@@ -18,39 +16,20 @@ object ECommerceProducer {
 
     fun runProducer() {
         val events: Sequence<ClickEvent> = DataSourceUtils
-            .loadDataFile("/Documents/data/clickevents/small/events.csv", DataSourceUtils.toEvent)
+            .loadDataFile("/Documents/data/clickevents/events.csv", DataSourceUtils.toEvent)
+            .take(1000000)
 
         val properties = KafkaConfig.buildProducerProps()
 
-        logger.info("Starting Kafka Producers with configs ...")
-        properties.show()
+        val producerResource: ProducerResource<String, ClickEvent> = ProducerResource.live<String, ClickEvent>(properties)
 
-        val producer = KafkaProducer<String, ClickEvent>(properties)
-
-        val counter = AtomicInteger(0)
-        val t0 = System.currentTimeMillis()
-
-        for (event in events) {
-            ProducerRecord(KafkaConfig.EVENTS_TOPIC, event.userSession, event)
-                .also { record ->
-                    producer.send(record) { _, exception ->
-                        exception?.let {
-                            logger.error { "Error while producing: $exception" }
-                        } ?: kotlin.run {
-                            counter.incrementAndGet()
-                            if (counter.get() % 10000 == 0) {
-                                logger.info { "Total messages sent so far ${counter.get()}." }
-                            }
-                        }
-                    }
-                }
+        val time = measureTimeMillis {
+            for (event in events) {
+                producerResource.produce(KafkaConfig.EVENTS_TOPIC, event.userSession, event)
+            }
         }
 
-        producer.flush()
-        logger.info("Total Event records sent: '${counter.get()}' in '${TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - t0)}' seconds")
-
-        logger.info("Closing Producers ...");
-
-        producer.close()
+        producerResource.shutdown()
+        logger.info("Total time '${TimeUnit.MILLISECONDS.toSeconds(time)}' seconds")
     }
 }

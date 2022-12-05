@@ -1,6 +1,6 @@
-package io.ipolyzos
+package io.ipolyzos.resources
 
-import io.ipolyzos.producers.json.ECommerceProducer
+import io.ipolyzos.show
 import mu.KLogger
 import mu.KotlinLogging
 import org.apache.kafka.clients.producer.KafkaProducer

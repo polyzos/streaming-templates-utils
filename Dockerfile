@@ -8,4 +8,4 @@ RUN mkdir -p /tmp
 RUN chmod 777 /tmp
 COPY credentials/ /tmp
 
-ENTRYPOINT ["java","-cp","/app.jar", "io.ipolyzos.offsets.OffsConsumerKt"]
+ENTRYPOINT ["java","-cp","/app.jar", "io.ipolyzos.offsets."]

@@ -1,6 +1,6 @@
 package io.ipolyzos.consumers
 
-import io.ipolyzos.ConsumerResource
+import io.ipolyzos.resources.ConsumerResource
 import io.ipolyzos.config.KafkaConfig
 import io.ipolyzos.models.clickstream.ClickEvent
 import mu.KLogger
@@ -21,7 +21,5 @@ fun main() {
 
 
     val consumerResource = ConsumerResource.live<String, ClickEvent>(properties)
-    logger.info { "Starting consumer with properties:" }
-
     consumerResource.consume(KafkaConfig.EVENTS_TOPIC)
 }

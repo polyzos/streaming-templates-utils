@@ -1,8 +1,9 @@
-package io.ipolyzos
+package io.ipolyzos.resources
 
 
 import io.confluent.parallelconsumer.ParallelConsumerOptions
 import io.confluent.parallelconsumer.ParallelStreamProcessor
+import io.ipolyzos.show
 import mu.KLogger
 import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.ConsumerRecords
