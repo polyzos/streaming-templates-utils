@@ -8,11 +8,11 @@ kafka:
   securityProtocol: "SSL"
   ssl:
     truststoreLocation: "credentials/client.truststore.jks"
-    truststorePassword: "pass123"
+    truststorePassword: ""
     keystoreType: "PKCS12"
     keystoreLocation: "credentials/client.keystore.p12"
-    keystorePassword: "pass123"
-    keyPassword: "pass123"
+    keystorePassword: ""
+    keyPassword: ""
   registry:
     url: ""
     credentialsSource: "USER_INFO"

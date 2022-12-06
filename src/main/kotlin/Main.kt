@@ -1,3 +1,6 @@
+import io.ipolyzos.utils.DataGenerator
+import java.sql.Timestamp
+
 //import io.ipolyzos.config.AppConfig
 //import org.apache.kafka.clients.admin.AdminClient
 //import org.apache.kafka.clients.admin.ListOffsetsResult.ListOffsetsResultInfo
@@ -124,3 +127,13 @@
 //        }
 //
 //}
+
+fun main() {
+    while(true) {
+        val fx = DataGenerator.generateFxTransaction()
+        val rate = DataGenerator.generateRate()
+        println(fx.toString() + " - " + rate)
+        println(Timestamp(rate.rateTime))
+        Thread.sleep(500)
+    }
+}
