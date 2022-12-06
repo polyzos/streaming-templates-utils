@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  jobmanager:
+    build: .
+    image: flink:latest
+    container_name: jobmanager
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+  taskmanager:
+    image: flink:latest
+    container_name: taskmanager
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    deploy:
+      replicas: 1
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 4

@@ -1,0 +1,19 @@
+postgres:
+  host: ""
+  port: 3306
+  user: ""
+  pass: ""
+kafka:
+  servers: ""
+  securityProtocol: "SSL"
+  ssl:
+    truststoreLocation: ""
+    truststorePassword: ""
+    keystoreType: "PKCS12"
+    keystoreLocation: ""
+    keystorePassword: ""
+    keyPassword: ""
+  registry:
+    url: ""
+    credentialsSource: "USER_INFO"
+    authUserInfo: ""
