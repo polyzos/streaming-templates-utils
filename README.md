@@ -1,5 +1,5 @@
-Streaming Data:Templates & Utils
---------------------------------
+Streaming Templates & Utils
+---------------------------
 This Repo contains a collection:
 1. Sample Data Generators
 2. Extension Functions
