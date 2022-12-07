@@ -37,6 +37,7 @@ class ProducerResource<K, V> private constructor(private val producer: KafkaProd
             }
     }
 
+    fun flush() = producer.flush()
     fun shutdown() {
         producer.flush()
         logger.info { "Total Event records sent: '${counter.get()}' " }

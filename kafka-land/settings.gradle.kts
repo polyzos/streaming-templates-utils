@@ -1,3 +1,3 @@
 
-rootProject.name = "streamingledgers-kafka"
+rootProject.name = "kafka-land"
 

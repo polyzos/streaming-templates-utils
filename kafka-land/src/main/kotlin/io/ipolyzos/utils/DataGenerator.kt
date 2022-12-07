@@ -1,12 +1,16 @@
 package io.ipolyzos.utils
 
 import com.github.javafaker.Faker
+import io.ipolyzos.models.iot.SensorReading
+import io.ipolyzos.models.iot.SensorInfo
 import io.ipolyzos.models.sim.FxTransaction
 import io.ipolyzos.models.sim.Order
 import io.ipolyzos.models.sim.Rate
 import io.ipolyzos.models.sim.ServerLog
+import java.sql.Timestamp
 import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 
 object DataGenerator {
     private val faker = Faker()
@@ -80,6 +84,71 @@ object DataGenerator {
             currencyCode = currencyCode,
             euroRate =  euroRate,
             rateTime = rateTime.time
+        )
+    }
+
+
+//    fun generateSensorReadings(numberRecords: Int): Map<String, MutableList<Sensor>>? {
+//        val faker = Faker()
+//        val idNumbers: MutableList<String> = ArrayList()
+//        val idNumber = faker.idNumber()
+//        for (i in 0..19) {
+//            idNumbers.add(idNumber.invalid())
+//        }
+//        val numberPerTopic = numberRecords / 3
+//        val number = faker.number()
+//        val types: List<String> = listOf<String>(
+//            "NONE",
+//            "TEMPERATURE",
+//            "PROXIMITY"
+//        )
+//        val recordsMap: MutableMap<String, MutableList<Sensor>> = HashMap()
+//        val sensorTopics = listOf("combined-sensors", "temperature-sensors", "proximity-sensors")
+//        sensorTopics.forEach(Consumer { sensorTopic: String? ->
+//            recordsMap[sensorTopic!!] = ArrayList<Sensor>()
+//        })
+//        sensorTopics.forEach(Consumer { sensorTopic: String ->
+//            val sensorList: MutableList<Sensor> = recordsMap[sensorTopic]!!
+//            for (i in 0 until numberPerTopic) {
+//                val type: String = when (sensorTopic) {
+//                    "combined-sensors" -> types[number.numberBetween(0, 2)]
+//                    "temperature-sensors" -> "TEMPERATURE"
+//                    "proximity-sensors" -> "PROXIMITY"
+//                    else -> types[number.numberBetween(0, 2)]
+//                }
+//                sensorList.add(
+//                    Sensor(
+//                        id=idNumbers[io.ipolyzos.ppc.random.nextInt(20)],
+//                        sensorType=type,
+//                        reading = number.randomDouble(2, 1, 1000)
+//                    )
+//                )
+//            }
+//        })
+//        return recordsMap
+//    }
+
+    fun generateSensorReading(): SensorReading {
+        val types: List<String> = listOf<String>(
+            "TEMPERATURE",
+            "PROXIMITY"
+        )
+        return SensorReading(
+            id = faker.number().numberBetween(0, 11).toString(),
+            sensorType = types[faker.number().numberBetween(0, 2)],
+            reading = faker.number().randomDouble(2, 1, 300)
+        )
+    }
+
+    fun generateSensorInfo(): SensorInfo {
+        val maxIds = 10
+        val idCounter = AtomicInteger(0)
+        return SensorInfo(
+            id = (idCounter.getAndIncrement() % maxIds).toString(),
+            latitude = faker.address().latitude(),
+            longitude = faker.address().longitude(),
+            generation = faker.number().numberBetween(0, 4),
+            deployed = Timestamp(faker.date().past(1825, TimeUnit.DAYS).time)
         )
     }
 }
