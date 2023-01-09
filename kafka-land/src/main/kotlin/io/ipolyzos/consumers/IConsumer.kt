@@ -11,13 +11,13 @@ fun main() = IConsumer.runConsumer()
 object IConsumer {
     fun runConsumer() {
         val properties = KafkaConfig.buildConsumerProps(
-            "ecommerce.users.parallel.group9"
+            "ecommerce.users.parallel.group"
         )
         properties[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = "false"
         properties[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
 
         val numConsumers = 1
-        (1..numConsumers).forEach { id ->
+        (1..numConsumers).forEach { _ ->
             thread {
                 val consumerResource = ConsumerResource.live<String, User>(properties)
                 consumerResource.consumeParallel(KafkaConfig.USERS_TOPIC)

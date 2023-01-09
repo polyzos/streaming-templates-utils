@@ -1,5 +1,8 @@
 package io.ipolyzos.models.clickstream
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ClickEvent(val eventTime: Long,
                       val eventType: String,
                       val productId: String,

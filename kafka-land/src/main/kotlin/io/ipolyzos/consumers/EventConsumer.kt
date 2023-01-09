@@ -3,15 +3,11 @@ package io.ipolyzos.consumers
 import io.ipolyzos.resources.ConsumerResource
 import io.ipolyzos.config.KafkaConfig
 import io.ipolyzos.models.clickstream.ClickEvent
-import mu.KLogger
-import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig
-
-private val logger: KLogger by lazy { KotlinLogging.logger {} }
 
 fun main() {
     val properties = KafkaConfig.buildConsumerProps(
-        "ecommerce.events.group2"
+        "ecommerce.events.group"
     )
     properties[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
 //    properties[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = "false"

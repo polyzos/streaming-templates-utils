@@ -49,15 +49,11 @@ class ConsumerResource<K, V> private constructor(private val consumer: KafkaCons
         try {
             while (true) {
                 val records: ConsumerRecords<K, V> = consumer.poll(Duration.ofMillis(100))
-
                 records.forEach { _ ->
                     // simulate the consumers doing some work
-//                Thread.sleep(200)
+                    Thread.sleep(20)
                     records.show()
-                    logger.info { "Total so far: ${counter.incrementAndGet()}" }
-                    logger.info { "Records in batch: ${records.count()}" }
-                    logger.info { "Elapsed Time so far: ${TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - t0)} seconds." }
-
+                    logger.info { "Records in batch: ${records.count()} - Total so far: ${counter.incrementAndGet()}" }
                 }
             }
         } catch (e: WakeupException) {
@@ -65,17 +61,6 @@ class ConsumerResource<K, V> private constructor(private val consumer: KafkaCons
         } catch (e: Exception) {
             logger.warn("Unexpected exception: {}", e.message)
         } finally {
-//        logger.info { "Committing Current Offsets: ${listener.getCurrentOffsets()}" }
-//        consumer.commitSync(listener.getCurrentOffsets()); // we must commit the offsets synchronously here
-//    consumer.commitAsync { offsets, exception ->
-//        exception?.let {
-//            logger.error { "Error while producing: $exception" }
-//        } ?: run {
-//            logger.info {
-//                "Successfully Committed Offsets: $offsets."
-//            }
-//        }
-//    }
             consumer.close() // this will also commit the offsets if need be.
             logger.info("The consumer is now gracefully closed.")
         }

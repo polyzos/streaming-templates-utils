@@ -4,6 +4,9 @@ import io.ipolyzos.models.clickstream.User
 import io.ipolyzos.utils.DataGenerator
 import io.ipolyzos.utils.DataSourceUtils
 import java.sql.Timestamp
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
 
 //import io.ipolyzos.config.AppConfig
 //import org.apache.kafka.clients.admin.AdminClient
@@ -131,3 +134,11 @@ import java.sql.Timestamp
 //        }
 //
 //}
+
+fun main() {
+    while(true) {
+        val reading = DataGenerator.generateSensorReading()
+        println(Json.encodeToString(reading))
+        Thread.sleep(500)
+    }
+}

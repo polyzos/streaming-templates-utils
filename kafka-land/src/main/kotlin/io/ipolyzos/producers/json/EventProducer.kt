@@ -17,7 +17,6 @@ object ECommerceProducer {
     fun runProducer() {
         val events: Sequence<ClickEvent> = DataSourceUtils
             .loadDataFile("/Documents/data/clickevents/events.csv", DataSourceUtils.toEvent)
-            .take(1000000)
 
         val properties = KafkaConfig.buildProducerProps()
 
@@ -25,11 +24,12 @@ object ECommerceProducer {
 
         val time = measureTimeMillis {
             for (event in events) {
-                producerResource.produce(KafkaConfig.EVENTS_TOPIC, event.userSession, event)
+                producerResource.produce(KafkaConfig.EVENTS_TOPIC, event.userid, event)
             }
         }
+        producerResource.flush()
+        logger.info("Total time '${TimeUnit.MILLISECONDS.toSeconds(time)}' seconds")
 
         producerResource.shutdown()
-        logger.info("Total time '${TimeUnit.MILLISECONDS.toSeconds(time)}' seconds")
     }
 }

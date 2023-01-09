@@ -51,6 +51,7 @@ object DataSourceUtils {
             firstname = tokens[1],
             lastname  = tokens[2],
             username  = tokens[3],
+            email     = "${tokens[3]}@gmail.com",
             title     = tokens[4],
             address   = tokens[5]
         )
