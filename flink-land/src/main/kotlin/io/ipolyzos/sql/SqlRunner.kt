@@ -44,27 +44,34 @@ fun main() {
 
 
     tableEnvironment
-        .executeSql("""
-            INSERT INTO events_filtered
-            SELECT eventTime, eventType, productId, categoryId, categoryCode, brand, price, userid, userSession
-            FROM events
-            WHERE eventType='purchase'
-        """.trimIndent())
-
-        tableEnvironment
-            .executeSql("""
-                CREATE VIEW eventusers AS
-                SELECT *
-                FROM events_filtered
-                INNER JOIN users ON events_filtered.userid = users.userId
-                """)
-
-    tableEnvironment
-        .executeSql("""
-                SELECT * 
-                FROM eventusers
-                INNER JOIN products ON products.productCode = eventusers.productId
-                """)
+        .executeSql("SELECT * FROM events LIMIT 10")
         .print()
+
+//    tableEnvironment
+//        .executeSql("""
+//            INSERT INTO events_filtered
+//            SELECT eventTime, eventType, productId, categoryId, categoryCode, brand, price, userid, userSession
+//            FROM events
+//            WHERE eventType='purchase'
+//        """.trimIndent())
+
+//        tableEnvironment
+//            .executeSql("""
+//                CREATE VIEW eventusers AS
+//                SELECT events_filtered.eventTime, events_filtered.productId, events_filtered.userSession, users.firstname, users.lastname, users.address, events_filtered.price
+//                FROM events_filtered
+//                INNER JOIN users ON events_filtered.userid = users.userId
+//                """)
+////            .print()
+////                GROUP BY events_filtered.productId, events_filtered.userSession, users.firstname, users.lastname, users.address
+//
+//    tableEnvironment
+//        .executeSql("""
+//                SELECT eventusers.userSession, eventusers.firstname, eventusers.lastname, eventusers.address, SUM(eventusers.price) , COLLECT(products.productName)
+//                FROM eventusers
+//                    INNER JOIN products ON products.productCode = eventusers.productId
+//                GROUP BY eventusers.userSession, eventusers.firstname, eventusers.lastname, eventusers.address, products.productName
+//                """)
+//        .print()
 }
 

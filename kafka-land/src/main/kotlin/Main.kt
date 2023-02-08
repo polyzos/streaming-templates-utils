@@ -138,6 +138,7 @@ import kotlinx.serialization.encodeToString
 fun main() {
     while(true) {
         val reading = DataGenerator.generateSensorReading()
+        println(DataGenerator.generateSensorInfo())
         println(Json.encodeToString(reading))
         Thread.sleep(500)
     }

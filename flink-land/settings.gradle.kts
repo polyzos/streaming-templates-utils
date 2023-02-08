@@ -1,3 +1,3 @@
 
-rootProject.name = "streamingledgers-flink"
+rootProject.name = "flink-land"
 

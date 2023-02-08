@@ -66,6 +66,7 @@ object CreateTable {
                 firstname   STRING,
                 lastname    STRING,
                 username    STRING,
+                email       STRING,
                 title       STRING,
                 address     String
         ) ${connectorWith("ecommerce.users", "ecommerce.users.sql.group")}
@@ -78,6 +79,16 @@ object CreateTable {
             promoCode STRING,
             productName STRING
         ) ${connectorWith("ecommerce.products", "ecommerce.products.sql.group")}
+    """.trimIndent()
+
+    val userEvents = """
+        eventTime BIGINT,
+        productId STRING,
+        price DOUBLE,
+        userSession STRING,
+        firstname   STRING,
+        lastname    STRING,
+        address     String
     """.trimIndent()
 
     //             eventTime_ltz AS TO_TIMESTAMP_LTZ(eventTime, 3),
@@ -106,6 +117,7 @@ object CreateTable {
             `date` STRING
         ) ${connectorWith("finance.accounts", "finance.accounts.sql.group")}
     """.trimIndent()
+
 
     val CREATE_CUSTOMERS_TABLE = """
         CREATE TABLE customers (

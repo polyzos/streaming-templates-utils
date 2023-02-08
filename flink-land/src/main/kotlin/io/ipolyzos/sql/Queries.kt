@@ -1,6 +1,5 @@
 package io.ipolyzos.sql
 
-import io.ipolyzos.config.KafkaConfig
 
 object Queries {
     // Ecommerce Queries

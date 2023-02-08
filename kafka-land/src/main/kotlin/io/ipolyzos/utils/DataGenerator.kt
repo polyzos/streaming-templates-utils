@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger
 object DataGenerator {
     private val faker = Faker()
     private val random = Random()
+    private val sensorIdCounter = AtomicInteger(0)
 
     fun generateServerLog(): ServerLog {
         val clientIp: String = faker.internet().publicIpV4Address()
@@ -142,9 +143,8 @@ object DataGenerator {
 
     fun generateSensorInfo(): SensorInfo {
         val maxIds = 10
-        val idCounter = AtomicInteger(0)
         return SensorInfo(
-            id = (idCounter.getAndIncrement() % maxIds).toString(),
+            id = (sensorIdCounter.getAndIncrement() % maxIds).toString(),
             latitude = faker.address().latitude(),
             longitude = faker.address().longitude(),
             generation = faker.number().numberBetween(0, 4),

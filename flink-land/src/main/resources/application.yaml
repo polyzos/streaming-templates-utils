@@ -4,16 +4,16 @@ postgres:
   user: ""
   pass: ""
 kafka:
-  servers: ""
+  servers: "kafka-ipolyzos-ipolyzos.aivencloud.com:24949"
   securityProtocol: "SSL"
   ssl:
     truststoreLocation: "credentials/client.truststore.jks"
-    truststorePassword: ""
+    truststorePassword: "pass123"
     keystoreType: "PKCS12"
     keystoreLocation: "credentials/client.keystore.p12"
-    keystorePassword: ""
-    keyPassword: ""
+    keystorePassword: "pass123"
+    keyPassword: "pass123"
   registry:
-    url: ""
+    url: "https://avnadmin:AVNS_41glD5KYATWaIOeyshx@kafka-ipolyzos-business-demo.aivencloud.com:18792"
     credentialsSource: "USER_INFO"
-    authUserInfo: ""
+    authUserInfo: "avnadmin:AVNS_41glD5KYATWaIOeyshx"
